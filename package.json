@@ -1,5 +1,5 @@
 {
-  "name": "template-repo",
+  "name": "to-do-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jesan-Ahmed/template-repo-js.git"
+    "url": "git+https://github.com/Jesan-Ahmed/to-do-list.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Jesan-Ahmed/template-repo-js/issues"
+    "url": "https://github.com/Jesan-Ahmed/to-do-list/issues"
   },
-  "homepage": "https://github.com/Jesan-Ahmed/template-repo-js#readme",
+  "homepage": "https://github.com/Jesan-Ahmed/to-do-list#readme",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",
