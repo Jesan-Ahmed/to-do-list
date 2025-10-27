@@ -1,0 +1,407 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+}
+
+header nav {
+    background-color: #6A89A7;
+    font-family: cursive;
+    font-weight: 900;
+    height: 70px;
+    border-bottom: 4px solid black;
+    
+}
+header nav h1{
+    padding-top: 10px;
+    margin-left: 40px;
+}
+.content{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    min-height: 90vh;
+    
+}
+.sidebar{
+    background-color: #88BDF2;
+    border-right: 3px solid gray;
+}
+.main{
+    background-color: #BDDDFC;
+}
+
+.home,
+.project{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.home h1,
+.project h1{
+    width: 90%;
+    height: 50px;
+    font-size: 40px;
+    font-weight: 900;
+    border-bottom: 3px solid white;
+    color: white;
+}
+.home ul,
+.project ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%
+}
+.home li,
+.project li{
+    list-style: none;
+}
+.home-btn,
+.project-btn{
+    width: 95%;
+    height: 35px;
+    font-size: 15px;
+    background-color: rgba(106, 137, 167, .3);
+    color: rgb(255, 255, 255);
+    border: none;
+}
+.home-btn:hover,
+.project-btn:hover,
+.add-task-btn:hover{
+    background-color: #6A89A7;
+}
+.project-form-li{
+    display: none;
+}
+.project form{
+    width: 257px;
+    height: 90px;
+    background-color: #6A89A7;
+}
+.project-input-field{
+   display: flex;
+   align-items: center;
+   gap: 10px;
+
+   padding-left: 10px;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   height: 50px;
+}
+.project-input-field img{
+    width: 25px;
+}
+.project-input-field input{
+    width: 200px;
+    height: 25px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 18px;
+    border: none;
+    padding-left: 7px;
+}
+.project-input-btn{
+    margin-left: 37px;
+}
+.project-add-btn,
+.project-cancel-btn{
+    width: 90px;
+    height: 25px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main .main-header{
+    width: 90%;
+    height: 70px;
+    font-size: 40px;
+    background-color: #6A89A7;
+    margin-top: 50px;
+    padding: 15px;
+    padding-left: 40px;
+    color: white;
+}
+.main ul{
+    width: 90%;
+    list-style: none;
+}
+.main ul li{
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.task-block{
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+}
+.task-block-btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #6A89A7;
+    border: #6A89A7;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.task-block-btn .task-complete-toggle-Btn{
+    margin-left: 40px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+    border: #fff;
+}
+
+.task-block-btn h1{
+    width: 600px;
+    text-align: center;
+    font-size: 30px;
+    margin-left: 20px;
+}
+.priority,
+.due-date{
+    width: 150px;
+}
+.priority.low{
+    color:rgba(0, 128, 0, 0.438)
+}
+.priority.medium{
+    color: rgba(255, 255, 0, 0.577);
+}
+.priority.high{
+    color: rgba(255, 0, 0, 0.468);
+}
+.task-edit-btn,
+.task-delete-btn{
+    margin-left: 10px;
+    background-color: #6A89A7;
+    border: #6A89A7;
+}
+.task-block-btn:hover,
+.task-block-btn:hover .task-edit-btn,
+.task-block-btn:hover .task-delete-btn{
+    background-color: #88BDF2;
+    border: #88BDF2;
+}
+
+.task-block-btn img[alt="edit"],
+.task-block-btn img[alt="delete"]{
+    width: 25px;
+    height: 25px;
+}
+
+
+.add-task-btn{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(106, 137, 167, .5);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+
+.add-task-btn div{
+    display: flex;
+    align-items: center;
+}
+.add-task-btn img{
+    width:35px;
+    aspect-ratio: 1;
+    margin-left: 20px;
+}
+.add-task-btn h2{
+    font-size: 25px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.form,
+.edit-form{
+    display: none;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+.form form,
+.edit-form form{
+    width: 800px;
+    height: 500px;
+    background-color: #6A89A7;
+    position: relative;
+    top:100px;
+    left: 370px;
+    border: 3px solid gray;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px black;
+}
+fieldset{
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    border: none;
+}
+fieldset legend{
+    font-size: 45px;
+    color: #88BDF2;
+    font-weight: 900;
+    text-align: center;
+    border-bottom: 3px solid #88BDF2;
+}
+fieldset input{
+    width: 50%;
+    height: 40px;
+    padding-left: 10px;
+    font-size: 25px;
+    outline: none;
+    border-radius: 5px;
+    color: #6A89A7;
+    
+}
+fieldset label{
+    font-size: 25px;
+    color: #BDDDFC;
+}
+input:focus,
+fieldset #details:focus,
+fieldset #edit-details:focus,
+fieldset select:focus{
+    border: 3px solid #BDDDFC;
+    
+}
+fieldset #details,
+fieldset #edit-details{
+    width: 70%;
+    height: 120px;
+    resize: none;
+    font-size: 20px;
+    color: #6A89A7;
+    padding: 7px;
+    padding-left: 20px;
+    outline: none;
+    border-radius: 5px;
+}
+
+.fieldset-btn button,
+.edit-fieldset-btn button{
+    width: 100px;
+    height: 45px;
+    font-size: 25px;
+    margin-right: 15px;
+    border: none;
+    border-radius: 5px;
+}
+.fieldset-btn1,
+.edit-fieldset-btn1,
+.project-add-btn{
+    background-color: rgba(0, 128, 0, 0.716);
+    color: white;
+}
+.fieldset-btn2,
+.edit-fieldset-btn2,
+.project-cancel-btn{
+    background-color: rgba(255, 0, 0, 0.514);
+    color: white;
+}
+fieldset #details,
+fieldset #edit-details,
+fieldset textarea,
+fieldset div{
+    margin-bottom: 20px;
+}
+fieldset div{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 40px;
+    margin-top: 20px;
+}
+fieldset div select{
+    width: 180px;
+    font-size: 20px;
+    outline: none;
+    border-radius: 5px;
+
+}
+.task{
+    display: none;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+.task-field{
+    width: 800px;
+    height: 500px;
+    background-color: #6A89A7;
+    position: relative;
+    top:100px;
+    left: 370px;
+    border: 3px solid gray;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px black;
+}
+.cross{
+    position: relative;
+    top: 20px;
+    left: 750px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.clicked-task{
+    background-color: #88BDF2;
+    color: wheat;
+    border-radius: 10px;
+    border: 2px solid gray;
+    box-shadow: 2px 2px 2px gray;
+    position: relative;
+    margin:60px auto;
+    width: 600px;
+    height: 300px;
+}
+.clicked-task h1{
+    text-align: center;
+    margin: 30px auto;
+}
+.clicked-task p{
+    font-size: 20px;
+    text-align: center;
+    width: 80%;
+    margin:40px auto;
+}
+.cross img{
+    margin: auto;
+    width: 22px;
+    aspect-ratio: 1;
+}
+.cross:hover{
+    background-color: rgba(255, 0, 0, 0.675);
+}
+
