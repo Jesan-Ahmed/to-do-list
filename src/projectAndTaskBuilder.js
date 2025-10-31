@@ -10,6 +10,11 @@ class Project{
     getTasks(){
         return [...this.tasks];
     }
+    deleteTask(id){
+        const newList = this.tasks.filter( task => task.getId() !== id);
+        this.tasks.length = 0;
+        this.tasks.push(...newList);
+    }
     getId(){
         return this.name
                 .replace(/\s+/g, "-")

@@ -9,13 +9,35 @@ const allProjects = [];
 const taskListToRender = [];
 let taskToUpdate;
 
-let isProjectOnScreen;
-let isAllOnScreen;
-let isCompleteOnScreen;
-let isThisWeekOnScreen;
-let isTodayOnScreen;
+const onScreen = {
+    project: true,
+    all: false,
+    complete: false,
+    thisWeek: false,
+    today: false,
+};
 
 let selectedproject;
+
+const setOnScreen = (isOnScreen)=>{
+    for(let key in onScreen){
+        if(key === isOnScreen){
+            onScreen[key] = true;
+        }
+        else{
+            onScreen[key] = false;
+        }
+    }
+}
+
+const getOnScreen = ()=>{
+    for(let key in onScreen){
+        if(!onScreen[key]){
+            continue;
+        }
+        return key;
+    }
+}
 
 const getSelectedProject = ()=>{
     return selectedproject;
@@ -52,6 +74,34 @@ function editTask(taskToFind){
         }
     }
     taskToUpdate = todo;
+}
+
+function delTask(id){
+    const theProject = allProjects.find( project => project.getTasks().find( task => task.getId() === id));
+
+    if(theProject){
+        theProject.deleteTask(id);
+    }
+    function changeTaskList(taskList){
+        taskListToRender.length = 0;
+        taskListToRender.push(...taskList);
+    }
+    const onDisplay = getOnScreen();
+    if(onDisplay === "project"){
+        changeTaskList(selectedproject.getTasks());
+    }
+    else if(onDisplay === "all"){
+        changeTaskList(allTasks());
+    }
+    else if(onDisplay === "complete"){
+        changeTaskList(completedTask());
+    }
+    else if(onDisplay === "thisWeek"){
+        changeTaskList(dueSevenDayTask());
+    }
+    else if(onDisplay === "today"){
+        changeTaskList(taskDueToday());
+    }
 }
 
 function allTasks(){
@@ -132,4 +182,4 @@ function completedTask(){
 }
 
 
-export { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, getTaskListToRender, setTaskListToRender, editTask, allTasks, dueSevenDayTask, taskDueToday, completedTask, taskToUpdate };
+export { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, getTaskListToRender, setTaskListToRender, editTask, allTasks, dueSevenDayTask, taskDueToday, completedTask, setOnScreen, delTask, taskToUpdate };

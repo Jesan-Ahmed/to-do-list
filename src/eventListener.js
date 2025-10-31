@@ -1,7 +1,7 @@
 import { renderProjects } from "./render.js";
 import { Project, Task } from "./projectAndTaskBuilder.js";
 import {renderProjectTitle, renderTasks, renderTaskForm, closeTaskForm, renderEditTaskFrom, renderShowTask, closeShowTask, toggleCompleteThenRenderTask } from "./render.js";
-import { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, setTaskListToRender, taskToUpdate, allTasks, dueSevenDayTask, taskDueToday, completedTask } from "./projectAndTaskStateManagement.js";
+import { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, setTaskListToRender, taskToUpdate, allTasks, dueSevenDayTask, taskDueToday, completedTask, setOnScreen, delTask } from "./projectAndTaskStateManagement.js";
 
 
 
@@ -14,21 +14,29 @@ function eventListenerForProject(){
 
         const clickedElement = event.target;
         if(clickedElement.id === "all-task"){
+            setOnScreen("all");
+            renderProjectTitle("All Task");
             const listToRender = allTasks();
             setTaskListToRender(listToRender);
             renderTasks();
         }
         else if(clickedElement.id === "week"){
+            setOnScreen("thisWeek");
+            renderProjectTitle("Next 7 Days");
             const listToRender = dueSevenDayTask();
             setTaskListToRender(listToRender);
             renderTasks();
         }
         else if(clickedElement.id === "today"){
+            setOnScreen("today");
+            renderProjectTitle("Today");
             const listToRender = taskDueToday();
             setTaskListToRender(listToRender);
             renderTasks();
         }
         else  if(clickedElement.id === "complete"){
+            setOnScreen("complete");
+            renderProjectTitle("Completed");
             const listToRender = completedTask();
             setTaskListToRender(listToRender);
             renderTasks();
@@ -61,6 +69,7 @@ function eventListenerForProject(){
             addProject.style.display = "none";
         }
         else if( clickedElement.classList.contains("project-btn")){
+            setOnScreen("project");
             const projectOfTheTasks = getProjects().find((project) =>{
                 let id = project.getId();
 
@@ -103,13 +112,6 @@ function eventListenerForTask(){
     const editPriorityInput = document.querySelector(".edit-form #edit-priority");
 
     const showTaskCloseBtn = document.querySelector(".cross");
-
-    // const taskCompleteToggleBtn = document.querySelector(".task-complete-toggle-Btn");
-
-    // taskCompleteToggleBtn.addEventListener("click", ()=>{
-    //     const taskElement = taskCompleteToggleBtn.closest(".task-block-btn");
-    //     toggleCompleteThenRenderTask(taskElement);
-    // });
 
     showTaskCloseBtn.addEventListener("click", ()=>{
         closeShowTask();
@@ -170,6 +172,7 @@ function eventListenerForTask(){
         const addTaskBtn = event.target.closest(".add-task-btn");
         const showTask = event.target.closest(".task-block-btn");
         const editTask = event.target.closest(".task-edit-btn");
+        const delTaskBtn = event.target.closest(".task-delete-btn");
         const toggleCompleteBtn = event.target.closest(".task-complete-toggle-Btn");
 
         if(addTaskBtn){
@@ -183,6 +186,11 @@ function eventListenerForTask(){
         else if(editTask){
             const taskElement = editTask.closest(".task-block-btn");
             renderEditTaskFrom(taskElement);
+        }
+        else if(delTaskBtn){
+            const taskElement = delTaskBtn.closest(".task-block-btn");
+            delTask(taskElement.id);
+            renderTasks();
         }
         else if(showTask){
             renderShowTask(showTask)
