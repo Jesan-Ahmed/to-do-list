@@ -2,9 +2,9 @@ import { eventListenerForProject, eventListenerForTask } from "./eventListener.j
 import { renderProjects, renderProjectTitle, renderTasks } from "./render.js";
 
 
-function display(){
+function display(projectName){
     renderProjects();
-    renderProjectTitle("Main");
+    renderProjectTitle(projectName);
     renderTasks();
     eventListenerForProject();
     eventListenerForTask();

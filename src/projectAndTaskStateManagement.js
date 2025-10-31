@@ -4,12 +4,13 @@ import addDays from 'date-fns/addDays';
 import parseISO from 'date-fns/parseISO';
 import isEqual from 'date-fns/isEqual';
 
+import { Project, Task } from './projectAndTaskBuilder';
 
-const allProjects = [];
-const taskListToRender = [];
+let allProjects = [];
+let taskListToRender = [];
 let taskToUpdate;
 
-const onScreen = {
+let onScreen = {
     project: true,
     all: false,
     complete: false,
@@ -18,6 +19,60 @@ const onScreen = {
 };
 
 let selectedproject;
+
+const getLocalStorage = ()=>{
+    const projects = JSON.parse(localStorage.getItem("allProjects"));
+    const onScr = JSON.parse(localStorage.getItem("onScreen"));
+    const selectedprojectName = JSON.parse(localStorage.getItem("selectedprojectName"));
+    const taskToUpdateId = JSON.parse(localStorage.getItem("taskToUpdateId"));
+    
+    
+    if (onScr) onScreen = onScr;
+
+    if (projects) {
+        const reInstantiatedProjects = projects.map(plainProject => {
+            const newProject = new Project(plainProject.name);
+
+            newProject.tasks = plainProject.tasks.map(plainTask => {
+                const newTask = new Task(
+                    plainTask.title,
+                    plainTask.description,
+                    plainTask.dueDate,
+                    plainTask.priority
+                );
+                newTask.complete = plainTask.complete;
+                if(newTask.getId() === taskToUpdateId) taskToUpdate =newTask;
+                return newTask;
+            });
+            if(newProject.name === selectedprojectName) setSelectedProject(newProject);
+            return newProject;
+        });
+        allProjects = reInstantiatedProjects;
+    }
+    
+    updateTaskList();
+};
+
+const setLocalStorage = ()=>{
+    localStorage.setItem("allProjects", JSON.stringify(allProjects));
+    localStorage.setItem("onScreen", JSON.stringify(onScreen));
+    
+    
+
+    if(taskToUpdate){
+        localStorage.setItem("taskToUpdateId", JSON.stringify(taskToUpdate.getId()));
+    }
+    else{
+        localStorage.removeItem("taskToUpdateId");
+    }
+
+    if(selectedproject){
+        localStorage.setItem("selectedprojectName", JSON.stringify(selectedproject.name));
+    }
+    else{
+        localStorage.removeItem("selectedprojectName");
+    }
+}
 
 const setOnScreen = (isOnScreen)=>{
     for(let key in onScreen){
@@ -76,19 +131,24 @@ function editTask(taskToFind){
     taskToUpdate = todo;
 }
 
-function delTask(id){
-    const theProject = allProjects.find( project => project.getTasks().find( task => task.getId() === id));
+function changeTaskList(taskList){
+    taskListToRender.length = 0;
+    taskListToRender.push(...taskList);
+}
 
-    if(theProject){
-        theProject.deleteTask(id);
-    }
-    function changeTaskList(taskList){
-        taskListToRender.length = 0;
-        taskListToRender.push(...taskList);
-    }
+function updateTaskList(){
+
     const onDisplay = getOnScreen();
+
     if(onDisplay === "project"){
-        changeTaskList(selectedproject.getTasks());
+        if(selectedproject){
+            changeTaskList(selectedproject.getTasks());
+        }
+        else if(allProjects.length > 0){
+            setSelectedProject(allProjects[0]);
+            changeTaskList(selectedproject.getTasks());
+        }
+        
     }
     else if(onDisplay === "all"){
         changeTaskList(allTasks());
@@ -102,6 +162,13 @@ function delTask(id){
     else if(onDisplay === "today"){
         changeTaskList(taskDueToday());
     }
+}
+
+function delTask(id){
+    const theProject = allProjects.find( project => project.getTasks().find( task => task.getId() === id));
+
+    if(theProject) theProject.deleteTask(id);
+    updateTaskList();
 }
 
 function allTasks(){
@@ -182,4 +249,4 @@ function completedTask(){
 }
 
 
-export { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, getTaskListToRender, setTaskListToRender, editTask, allTasks, dueSevenDayTask, taskDueToday, completedTask, setOnScreen, delTask, taskToUpdate };
+export { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, getLocalStorage, setLocalStorage, getTaskListToRender, setTaskListToRender, editTask, allTasks, dueSevenDayTask, taskDueToday, completedTask, setOnScreen, delTask, taskToUpdate };

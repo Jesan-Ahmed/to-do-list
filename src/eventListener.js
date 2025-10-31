@@ -1,7 +1,7 @@
 import { renderProjects } from "./render.js";
 import { Project, Task } from "./projectAndTaskBuilder.js";
 import {renderProjectTitle, renderTasks, renderTaskForm, closeTaskForm, renderEditTaskFrom, renderShowTask, closeShowTask, toggleCompleteThenRenderTask } from "./render.js";
-import { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, setTaskListToRender, taskToUpdate, allTasks, dueSevenDayTask, taskDueToday, completedTask, setOnScreen, delTask } from "./projectAndTaskStateManagement.js";
+import { addProjectToProjects, getProjects, getSelectedProject, setSelectedProject, setTaskListToRender, setOnScreen, setLocalStorage, taskToUpdate, allTasks, dueSevenDayTask, taskDueToday, completedTask, delTask } from "./projectAndTaskStateManagement.js";
 
 
 
@@ -41,6 +41,7 @@ function eventListenerForProject(){
             setTaskListToRender(listToRender);
             renderTasks();
         }
+        setLocalStorage();
     });
 
     ulForProjects.addEventListener("click", (event)=>{
@@ -84,6 +85,7 @@ function eventListenerForProject(){
             renderTasks();
 
         }
+        setLocalStorage();
     });
 
     
@@ -150,6 +152,7 @@ function eventListenerForTask(){
                 renderTasks();
             }
         }
+        setLocalStorage();
         
     });
 
@@ -165,10 +168,10 @@ function eventListenerForTask(){
             taskToUpdate.update(title, detail, dueDate, priority);
             renderTasks();
         }
-    })
+        setLocalStorage();
+    });
 
     ulForTask.addEventListener("click", (event)=>{
-        console.log("hello");
         const addTaskBtn = event.target.closest(".add-task-btn");
         const showTask = event.target.closest(".task-block-btn");
         const editTask = event.target.closest(".task-edit-btn");
@@ -176,7 +179,6 @@ function eventListenerForTask(){
         const toggleCompleteBtn = event.target.closest(".task-complete-toggle-Btn");
 
         if(addTaskBtn){
-            console.log("button clicked!!");
             renderTaskForm(parentOfTaskForm);
         }
         else if(toggleCompleteBtn){
@@ -195,6 +197,7 @@ function eventListenerForTask(){
         else if(showTask){
             renderShowTask(showTask)
         }
+        setLocalStorage();
     });
 
 }
